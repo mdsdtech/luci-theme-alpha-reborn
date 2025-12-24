@@ -51,7 +51,7 @@ This official 2'nd theme in Indo-Wrt Community in indonesia. Not the result of m
 
 # Contributors
 <a href="https://github.com/derisamedia/luci-theme-alpha-reborn/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=derisamedia/luci-theme-alpha" />
+  <img src="https://contrib.rocks/image?repo=derisamedia/luci-theme-alpha-reborn" />
 </a>
 
 
