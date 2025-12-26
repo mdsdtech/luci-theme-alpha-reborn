@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Clone luci-theme-4lpha (branch Alpha-OS-4.0-Beta-(for-OpenWrt-24.xx))
         run: |
-          git clone -b "Alpha-OS-4.0-Beta-(for-OpenWrt-24.xx)" https://github.com/derisamedia/luci-theme-alpha.git luci-theme-alpha
+          git clone -b "Alpha-OS-4.0-Beta-(for-OpenWrt-24.xx)" https://github.com/derisamedia/luci-theme-alpha-reborn.git luci-theme-4lpha
           ls -R luci-theme-4lpha
 
       - name: Install dependencies
