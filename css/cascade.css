@@ -101,7 +101,7 @@
        ----------------------------------------------------------------------- */
     --sidebar-width: 260px;
     --sidebar-collapsed-width: 80px;
-    --header-height: 64px;
+    --header-height: 72px;
     --radius-sm: 4px;
     --radius-md: 8px;
     --radius-lg: 12px;
@@ -2385,7 +2385,7 @@ div.cbi-value var.cbi-tooltip-container,
 }
 
 [data-darkmode="true"] .spinning::before {
-    background: var(--on-color, #fff)
+    background: var(--on-color, #0bc6bd)
 }
 
 [data-tab-title] {
@@ -2926,6 +2926,8 @@ li.menu,
 .dashboard-container {
     padding: 2rem;
     width: 100%;
+    margin-top: var(--header-height);
+    /* Offset for fixed header */
 }
 
 
@@ -2936,6 +2938,11 @@ li.menu,
         margin-left: 0;
         width: 100%;
     }
+
+    .top-header {
+        left: 0 !important;
+        width: 100% !important;
+    }
 }
 
 /* Top Header */
@@ -2943,15 +2950,22 @@ li.menu,
 .top-header {
     background: #FFFFFF;
     color: #333333;
-    padding: 1rem 2rem;
+    padding: 0.5rem 2rem;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: sticky;
+    position: fixed;
+    /* Changed from sticky */
     top: 0;
+    right: 0;
+    left: var(--sidebar-width);
+    /* Matches sidebar width */
+    height: var(--header-height);
     z-index: 100;
-    width: 100%;
+    width: auto;
+    /* Let left/right define width */
+    transition: left 0.3s ease, width 0.3s ease;
 }
 
 [data-theme="dark"] .top-header {
@@ -3092,16 +3106,24 @@ li.menu,
     cursor: pointer;
 }
 
-.header-user-avatar {
+.header-logout-btn {
     width: 40px;
     height: 40px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink));
+    border-radius: var(--radius-md);
+    background: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    font-weight: 600;
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.header-logout-btn:hover {
+    background-color: rgba(211, 47, 47, 0.1);
+    /* Light red background */
+    color: var(--error-main);
+    border-color: rgba(211, 47, 47, 0.2);
 }
 
 /* Dashboard Grid */
@@ -3302,8 +3324,6 @@ li.menu,
     .dashboard-container {
         padding: 1rem;
         /* var(--spacing-md) */
-        padding-top: 90px;
-        /* Safe space for fixed header + spacing */
         width: 100%;
         overflow-x: hidden;
     }
@@ -4579,13 +4599,7 @@ body .modern-layout .main-wrapper {
 }
 
 /* Header/Footer Width Fix */
-body .modern-layout .main-wrapper .top-header {
-    margin: 0 !important;
-    width: 100% !important;
-    box-sizing: border-box;
-    padding-right: 2rem;
-    /* Ensure right padding matches left */
-}
+/* Header/Footer Width Fix - Removed to prevent off-screen overflow */
 
 .main-footer {
     margin: 0 !important;
@@ -4595,9 +4609,22 @@ body .modern-layout .main-wrapper .top-header {
 }
 
 @media (max-width: 768px) {
+    /* Mobile-specific adjustments if needed */
+}
 
-    /* Ensure padding is correct on mobile */
-    .dashboard-container {
-        padding-top: 90px;
-    }
+/* -----------------------------------------------------------------------
+   FIX: Tab Switching Layout Bug
+   Force hidden tabs to be completely removed from layout flow.
+   ----------------------------------------------------------------------- */
+[data-tab-active="false"],
+.cbi-tab[data-tab-active="false"],
+.container[data-tab-active="false"],
+.cbi-section[data-tab-active="false"] {
+    display: none !important;
+}
+
+/* Ensure CBI tab containers don't collapse improperly */
+.cbi-section-node {
+    display: block;
+    width: 100%;
 }
