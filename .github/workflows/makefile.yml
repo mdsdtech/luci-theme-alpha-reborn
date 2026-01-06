@@ -1,4 +1,4 @@
-name: Build luci-theme-alpha
+name: Build luci-theme-4lpha
 
 on:
   workflow_dispatch:
@@ -8,10 +8,10 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Clone luci-theme-alpha (branch Alpha-OS-4.0-Beta-(for-OpenWrt-24.xx))
+      - name: Clone luci-theme-4lpha (branch Alpha-OS-4.0-Beta-(for-OpenWrt-24.xx))
         run: |
-          git clone -b "Alpha-OS-4.0-Beta-(for-OpenWrt-24.xx)" https://github.com/derisamedia/luci-theme-alpha.git luci-theme-alpha
-          ls -R luci-theme-alpha
+          git clone -b "main" https://github.com/derisamedia/luci-theme-alpha-reborn.git luci-theme-4lpha
+          ls -R luci-theme-4lpha
 
       - name: Install dependencies
         run: |
@@ -27,21 +27,21 @@ jobs:
           SDK_DIR=$(find . -maxdepth 1 -type d -name "openwrt-sdk-*")
           mv "$SDK_DIR" openwrt-sdk
 
-      - name: Copy luci-theme-alpha
+      - name: Copy luci-theme-4lpha
         run: |
           mkdir -p openwrt-sdk/package/custom
-          cp -r luci-theme-alpha openwrt-sdk/package/custom/
+          cp -r luci-theme-4lpha openwrt-sdk/package/custom/
 
-      - name: Build luci-theme-alpha
+      - name: Build luci-theme-4lpha
         run: |
           cd openwrt-sdk
           ./scripts/feeds update -a
           ./scripts/feeds install -a
           make defconfig
-          make package/custom/luci-theme-alpha/compile V=s
+          make package/custom/luci-theme-4lpha/compile V=s
 
       - name: Upload ipk
         uses: actions/upload-artifact@v4
         with:
-          name: luci-theme-alpha
+          name: luci-theme-4lpha
           path: openwrt-sdk/bin/packages/**/*.ipk
