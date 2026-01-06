@@ -10,7 +10,7 @@ THEME_NAME:=4lpha
 THEME_TITLE:=4lpha
 
 PKG_NAME:=luci-theme-$(THEME_NAME)
-PKG_VERSION:=4.1.0-beta1
+PKG_VERSION:=4.1.1-beta1
 PKG_RELEASE:=1
 
 include $(INCLUDE_DIR)/package.mk
