@@ -38,8 +38,8 @@
 		<!-- Stylesheets -->
 		<link rel="stylesheet" href="{{ media }}/cascade.css?v=25.168.50434~d6b13f6">
 
-		<link rel="icon" href="{{ media }}/logo_48.png" sizes="48x48">
-		<link rel="icon" href="{{ media }}/logo.svg" sizes="any">
+		<link rel="icon" href="{{ media }}/favicon.ico" sizes="48x48">
+		<link rel="icon" href="{{ media }}/favicon.ico" sizes="any">
         
         <!-- PWA Manifest & Service Worker -->
         <link rel="manifest" href="{{ media }}/PWA/manifest.json">
