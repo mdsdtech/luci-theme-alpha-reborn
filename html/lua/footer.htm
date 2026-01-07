@@ -1,0 +1,191 @@
+<%# Copyright 2008 Steven Barth <steven@midlink.org>
+	Copyright 2008 Jo-Philipp Wich <jow@openwrt.org>
+		Copyright 2012 David Menting <david@nut-bolt.nl>
+			Copyright 2021-2025 Derisamedia (Muhamad Deri Sahertian) <yuimizuno86@gmail.com>
+				Licensed to the public under the Apache License 2.0.
+				-%>
+
+				<% if not blank_page then %>
+					</main>
+
+					<!-- Footer -->
+					<footer class="main-footer">
+						<% local ver=require "luci.version" %>
+							<span style="font-size: 0.875rem; color: #6B7280;">
+								Powered by
+								<a href="https://github.com/openwrt/luci" target="_blank" rel="noreferrer">
+									<%= ver.luciname %> (<%= ver.luciversion %>)
+								</a>
+								/
+								<a href="#" target="_blank" rel="noreferrer">
+									<%= ver.distversion %>
+								</a>
+							</span>
+							<ul class="breadcrumb pull-right" id="modemenu" style="display:none"></ul>
+					</footer>
+					</div>
+					</div>
+
+					<script type="text/javascript">L.require('menu-4lpha')</script>
+					<script>
+						// Mobile menu toggle
+						var mobileToggle = document.getElementById('mobile-menu-toggle');
+						if (mobileToggle) {
+							mobileToggle.addEventListener('click', function () {
+								var sidebar = document.getElementById('sidebar');
+								if (sidebar) {
+									sidebar.classList.toggle('open');
+								}
+							});
+						}
+					</script>
+
+					<!-- Toast Notification Manager -->
+					<script>
+						(function () {
+							const container = document.getElementById('toast-container');
+							if (!container) return;
+
+							function initToastBehavior(toast) {
+								if (toast.dataset.toastInit) return;
+								toast.dataset.toastInit = 'true';
+
+								const autoDismissDelay = 5000;
+								let dismissTimer;
+
+								const dismissToast = function () {
+									toast.classList.add('fade-out');
+									toast.addEventListener('animationend', function () {
+										toast.remove();
+									});
+								};
+
+								const startTimer = function () {
+									dismissTimer = setTimeout(dismissToast, autoDismissDelay);
+								};
+
+								toast.addEventListener('mouseenter', function () {
+									clearTimeout(dismissTimer);
+								});
+								toast.addEventListener('mouseleave', startTimer);
+
+								const closeBtn = toast.querySelector('.toast-close');
+								if (closeBtn) {
+									closeBtn.addEventListener('click', function (e) {
+										e.preventDefault();
+										e.stopPropagation();
+										dismissToast();
+									});
+								}
+
+								startTimer();
+							}
+
+							function transformAndMove(node) {
+								if (node.nodeType === 1 && node.classList.contains('alert-message') && !node.classList.contains('processed-toast')) {
+									node.classList.add('processed-toast');
+
+									const toast = document.createElement('div');
+									toast.className = 'toast-notification';
+									toast.style.pointerEvents = 'auto';
+
+									if (node.classList.contains('warning')) toast.classList.add('warning');
+									else if (node.classList.contains('success')) toast.classList.add('success');
+									else if (node.classList.contains('error') || node.classList.contains('danger')) toast.classList.add('error');
+									else if (node.classList.contains('notice')) toast.classList.add('success');
+
+									let titleText = 'Notification';
+									const h4 = node.querySelector('h4');
+									if (h4) {
+										titleText = h4.textContent;
+										h4.remove();
+									}
+									const existingClose = node.querySelector('.close');
+									if (existingClose) existingClose.remove();
+
+									const header = document.createElement('div');
+									header.className = 'toast-header';
+
+									const titleEl = document.createElement('h4');
+									titleEl.className = 'toast-title';
+									titleEl.textContent = titleText;
+
+									const closeBtn = document.createElement('button');
+									closeBtn.className = 'toast-close';
+									closeBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>';
+
+									header.appendChild(titleEl);
+									header.appendChild(closeBtn);
+
+									const body = document.createElement('div');
+									body.className = 'toast-message';
+
+									while (node.firstChild) {
+										body.appendChild(node.firstChild);
+									}
+
+									const buttons = body.querySelectorAll('button');
+									for (var i = 0; i < buttons.length; i++) {
+										buttons[i].addEventListener('click', function (e) {
+											e.preventDefault();
+											e.stopPropagation();
+											e.stopImmediatePropagation();
+
+											const t = this.closest('.toast-notification');
+											if (t) {
+												t.classList.add('fade-out');
+												t.addEventListener('animationend', function () {
+													t.remove();
+												});
+											}
+										}, true);
+									}
+
+									toast.appendChild(header);
+									toast.appendChild(body);
+
+									node.style.cssText = 'display: none !important;';
+
+									initToastBehavior(toast);
+
+									container.appendChild(toast);
+								}
+							}
+
+							// Process existing alerts
+							var alerts = document.querySelectorAll('.alert-message');
+							for (var i = 0; i < alerts.length; i++) {
+								transformAndMove(alerts[i]);
+							}
+
+							// Process static toasts
+							var toasts = container.querySelectorAll('.toast-notification');
+							for (var i = 0; i < toasts.length; i++) {
+								initToastBehavior(toasts[i]);
+							}
+
+							// Watch for new alerts
+							var observer = new MutationObserver(function (mutations) {
+								mutations.forEach(function (mutation) {
+									mutation.addedNodes.forEach(function (node) {
+										if (node.nodeType === 1) {
+											if (node.classList.contains('alert-message')) {
+												transformAndMove(node);
+											} else if (node.querySelectorAll) {
+												var innerAlerts = node.querySelectorAll('.alert-message');
+												for (var i = 0; i < innerAlerts.length; i++) {
+													transformAndMove(innerAlerts[i]);
+												}
+											}
+										}
+									});
+								});
+							});
+
+							observer.observe(document.body, { childList: true, subtree: true });
+						})();
+					</script>
+					<% end %>
+						</body>
+
+						</html>
