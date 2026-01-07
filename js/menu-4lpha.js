@@ -37,6 +37,237 @@ return baseclass.extend({
 
         // Update page subtitle with current page title
         this.updatePageSubtitle(tree);
+
+        // Render Mobile Bottom Navbar
+        this.renderMobileBottomNav(tree);
+    },
+
+    renderMobileBottomNav(tree) {
+        // Remove existing if any (re-render safety)
+        const existing = document.querySelector('.mobile-bottom-nav');
+        if (existing) existing.remove();
+
+        const existingModal = document.querySelector('#mobile-nav-config-modal');
+        if (existingModal) existingModal.remove();
+
+        // --- Configuration Logic ---
+        const LS_KEY = 'alpha_mobile_nav_config';
+        const defaultIconMap = {
+            'status': '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>',
+            'system': '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>',
+            'network': '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>',
+            'services': '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>',
+            'modem': '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><path d="M6 14V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8"/></svg>',
+            'docker': '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M7 7h.01M17 7h.01M17 17h.01M7 17h.01"/></svg>',
+            'control': '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>',
+            'nas': '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>',
+            'vpn': '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>',
+            'logout': '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>',
+            'default': '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>'
+        };
+
+        // Helper to generate default config from tree
+        const generateDefaultConfig = () => {
+            let items = ui.menu.getChildren(tree);
+            let pPath = '';
+            if (items.length === 1) {
+                pPath = items[0].name;
+                items = ui.menu.getChildren(items[0]);
+            }
+
+            return items.map(child => {
+                return {
+                    name: child.name,
+                    title: child.title, // store raw title key
+                    url: pPath ? L.url(pPath, child.name) : L.url(child.name),
+                    icon: defaultIconMap[child.name] || defaultIconMap['default']
+                };
+            });
+        };
+
+        // Load or Init
+        let savedConfig = localStorage.getItem(LS_KEY);
+        let config = savedConfig ? JSON.parse(savedConfig) : generateDefaultConfig();
+
+        // 3. Render Navbar from Config
+        const nav = E('div', { 'class': 'mobile-bottom-nav' });
+
+        // Add Toggle Button at the top (for desktop vertical mode)
+        const toggleBtn = E('button', {
+            'class': 'mobile-nav-toggle',
+            'aria-label': 'Toggle Navigation'
+        });
+        toggleBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>';
+
+        // Toggle functionality
+        toggleBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            nav.classList.toggle('collapsed');
+
+            // Save state to localStorage
+            const isCollapsed = nav.classList.contains('collapsed');
+            localStorage.setItem('alpha_nav_collapsed', isCollapsed ? 'true' : 'false');
+        });
+
+        nav.appendChild(toggleBtn);
+
+        // Restore collapsed state from localStorage
+        const savedCollapsed = localStorage.getItem('alpha_nav_collapsed');
+        if (savedCollapsed === 'true') {
+            nav.classList.add('collapsed');
+        }
+
+        config.forEach(item => {
+            const link = E('a', {
+                'class': 'mobile-nav-item',
+                'href': item.url
+            });
+
+            // Logic: if icon starts with <svg, render as HTML. else as img
+            if (item.icon && item.icon.trim().startsWith('<svg')) {
+                link.innerHTML = item.icon;
+            } else {
+                link.innerHTML = '<img src="' + item.icon + '" alt="icon" style="width:24px;height:24px;object-fit:contain;">';
+            }
+
+            nav.appendChild(link);
+        });
+
+        // 4. Add "Edit" Trigger
+        const editBtn = E('button', { 'class': 'mobile-nav-item mobile-nav-edit-trigger' });
+        editBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>';
+
+        editBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            openConfigModal();
+        });
+
+        nav.appendChild(editBtn);
+        document.body.appendChild(nav);
+
+        // --- Modal Logic ---
+        function openConfigModal() {
+            // Create Modal DOM
+            const modal = E('div', { 'class': 'nav-config-modal', 'id': 'mobile-nav-config-modal' }, [
+                E('div', { 'class': 'nav-config-card' }, [
+                    E('div', { 'class': 'nav-config-header' }, [
+                        E('h3', { 'class': 'nav-config-title' }, [_('Customize Navbar')]),
+                        E('button', { 'class': 'nav-config-close', 'click': closeConfigModal }, ['✕'])
+                    ]),
+                    E('div', { 'class': 'nav-config-body' }, []) // Content injected below
+                ])
+            ]);
+
+            const body = modal.querySelector('.nav-config-body');
+
+            // Render Editors
+            config.forEach((item, idx) => {
+                const editor = E('div', { 'class': 'nav-item-editor' }, [
+
+                    E('div', { 'class': 'form-group' }, [
+                        E('label', {}, ['URL']),
+                        E('input', {
+                            'type': 'text',
+                            'class': 'form-control url-input',
+                            'value': item.url,
+                            'data-idx': idx
+                        })
+                    ]),
+
+                    E('div', { 'class': 'form-group' }, [
+                        E('label', {}, ['Icon (Upload PNG/JPG)']),
+                        E('div', { 'style': 'display:flex; align-items:center; gap:10px;' }, [
+                            E('div', {
+                                'class': 'icon-preview',
+                                'style': 'width:40px; height:40px; background:rgba(255,255,255,0.1); border-radius:4px; display:flex; align-items:center; justify-content:center; overflow:hidden;'
+                            }, [
+                                // Show current icon (svg or img)
+                                (item.icon && item.icon.startsWith('<svg')) ?
+                                    (function () { const s = document.createElement('div'); s.innerHTML = item.icon; return s; })() :
+                                    E('img', { 'src': item.icon, 'style': 'width:100%; height:100%; object-fit:contain;' })
+                            ]),
+                            E('input', {
+                                'type': 'file',
+                                'accept': 'image/*',
+                                'class': 'form-control icon-input',
+                                'data-idx': idx
+                            })
+                        ])
+                    ])
+                ]);
+                body.appendChild(editor);
+            });
+
+            // Actions
+            const actions = E('div', { 'class': 'nav-config-actions' }, [
+                E('button', { 'class': 'btn-reset', 'click': resetConfig }, [_('Reset Default')]),
+                E('button', { 'class': 'btn-save', 'click': saveConfig }, [_('Save Changes')])
+            ]);
+
+            modal.querySelector('.nav-config-card').appendChild(actions);
+
+            document.body.appendChild(modal);
+            setTimeout(() => modal.classList.add('open'), 10);
+        }
+
+        function closeConfigModal() {
+            const modal = document.querySelector('#mobile-nav-config-modal');
+            if (modal) {
+                modal.classList.remove('open');
+                setTimeout(() => modal.remove(), 300);
+            }
+        }
+
+        const self = this;
+
+        async function saveConfig() {
+            const urlInputs = document.querySelectorAll('#mobile-nav-config-modal .url-input');
+            const iconInputs = document.querySelectorAll('#mobile-nav-config-modal .icon-input');
+
+            // 1. Update URLs first
+            urlInputs.forEach(input => {
+                const idx = input.dataset.idx;
+                if (idx !== undefined) {
+                    config[idx].url = input.value;
+                }
+            });
+
+            // 2. Process Files (Async)
+            const filePromises = Array.from(iconInputs).map(input => {
+                return new Promise((resolve) => {
+                    if (input.files && input.files[0]) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            const idx = input.dataset.idx;
+                            if (idx !== undefined) {
+                                config[idx].icon = e.target.result; // Base64 string
+                            }
+                            resolve();
+                        };
+                        reader.readAsDataURL(input.files[0]);
+                    } else {
+                        resolve(); // No file selected, keep existing icon
+                    }
+                });
+            });
+
+            await Promise.all(filePromises);
+
+            localStorage.setItem(LS_KEY, JSON.stringify(config));
+            closeConfigModal();
+            self.renderMobileBottomNav(tree);
+        }
+
+        function resetConfig() {
+            if (confirm(_('Are you sure you want to reset the navigation menu to defaults?'))) {
+                localStorage.removeItem(LS_KEY);
+                config = generateDefaultConfig();
+                closeConfigModal();
+                self.renderMobileBottomNav(tree);
+            }
+        }
     },
 
     renderTabMenu(tree, url, level) {

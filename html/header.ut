@@ -37,8 +37,6 @@
 		
 		<!-- Stylesheets -->
 		<link rel="stylesheet" href="{{ media }}/cascade.css?v=25.168.50434~d6b13f6">
-
-		<link rel="icon" href="{{ media }}/favicon.ico" sizes="48x48">
 		<link rel="icon" href="{{ media }}/favicon.ico" sizes="any">
         
         <!-- PWA Manifest & Service Worker -->
@@ -77,6 +75,27 @@
 
 	<body class="lang_{{ dispatcher.lang }} {{ entityencode(striptags(node?.title ?? ''), true) }}" data-page="{{ entityencode(join('-', ctx.request_path), true) }}">
 		{% if (!blank_page): %}
+		<!-- Page Loader -->
+		<div id="page-loader">
+			<div class="loader"></div>
+		</div>
+		<script>
+			// Hide loader when page is fully loaded
+			window.addEventListener('load', function() {
+				const loader = document.getElementById('page-loader');
+				if (loader) {
+					// Add small delay to ensure smooth transition
+					setTimeout(() => {
+						loader.classList.add('loaded');
+						// Remove from DOM after transition
+						setTimeout(() => {
+							loader.remove();
+						}, 500);
+					}, 100);
+				}
+			});
+		</script>
+		
 		<!-- Toast Container for Alerts (Available globally) -->
         <div class="toast-container" id="toast-container">
             {% if (getuid() == 0 && getspnam('root')?.pwdp === ''): %}
@@ -164,7 +183,7 @@
 
 
 						
-						<button class="theme-toggle" id="theme-toggle" aria-label="Toggle Dark Mode" style="margin-right: 1rem; border: none; background: transparent; cursor: pointer; color: var(--text-secondary);">
+						<button class="theme-toggle" id="theme-toggle" aria-label="Toggle Dark Mode" style="border: none; background: transparent; cursor: pointer; color: var(--text-secondary);">
 							<svg id="theme-icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: block;">
 								<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
 							</svg>

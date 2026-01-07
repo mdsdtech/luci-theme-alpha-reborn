@@ -3004,7 +3004,7 @@ li.menu,
 .top-header-right {
     display: flex;
     align-items: center;
-    gap: var(--spacing-md);
+    gap: 0.5rem;
     z-index: 101;
     /* Ensure icons are above other content */
 }
@@ -4152,7 +4152,6 @@ li.menu,
     .cbi-dropdown>ul>li input[type="text"],
     .cbi-value-field .control-group {
         width: 100%;
-        height: 30px;
     }
 
     input.cbi-input-password {
@@ -4628,4 +4627,496 @@ body .modern-layout .main-wrapper {
 .cbi-section-node {
     display: block;
     width: 100%;
+}
+
+/* ========================================
+   MOBILE BOTTOM NAVIGATION
+   ======================================== */
+
+.mobile-bottom-nav {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(15, 23, 42, 0.85);
+    /* Dark blue/slate background */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    /* Pill shape */
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 90%;
+    max-width: 400px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mobile-nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.6);
+    padding: 10px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    text-decoration: none !important;
+}
+
+.mobile-nav-item svg {
+    width: 24px;
+    /* Icons size from example */
+    height: 24px;
+    stroke-width: 2px;
+}
+
+.mobile-nav-item:hover,
+.mobile-nav-item.active {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.mobile-nav-item.active {
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    /* Optional: colored active state like the example green bar, 
+       but pill background highlight is cleaner for this style */
+}
+
+/* Show only on mobile */
+@media screen and (max-width: 768px) {
+    .mobile-bottom-nav {
+        display: flex;
+    }
+
+    /* Adjust main content padding so it doesn't get covered */
+    .dashboard-container {
+        padding-bottom: 90px !important;
+    }
+
+    footer.main-footer {
+        padding-bottom: 80px !important;
+    }
+}
+
+
+/* ========================================
+   MOBILE BOTTOM NAVIGATION & CONFIG MODAL
+   (Adaptive Light/Dark Mode)
+   ======================================== */
+
+/* --- Default Light Mode Variables for Navbar --- */
+:root {
+    --mnav-bg: rgba(255, 255, 255, 0.85);
+    /* Light glass */
+    --mnav-border: rgba(0, 0, 0, 0.1);
+    --mnav-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    --mnav-item-color: #64748b;
+    /* Slate 500 */
+    --mnav-item-hover-bg: rgba(0, 0, 0, 0.05);
+    --mnav-item-active-color: var(--primary-main, #1976d2);
+    --mnav-item-active-bg: rgba(25, 118, 210, 0.1);
+    /* Primary tint */
+    --mnav-item-active-shadow: none;
+
+    /* Modal Specifics */
+    --mnav-modal-input-bg: rgba(0, 0, 0, 0.05);
+    --mnav-modal-input-border: rgba(0, 0, 0, 0.1);
+    --mnav-modal-text: #333;
+}
+
+/* --- Dark Mode Overrides --- */
+[data-theme="dark"] {
+    --mnav-bg: rgba(15, 23, 42, 0.85);
+    /* Dark slate glass */
+    --mnav-border: rgba(255, 255, 255, 0.1);
+    --mnav-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    --mnav-item-color: rgba(255, 255, 255, 0.6);
+    --mnav-item-hover-bg: rgba(255, 255, 255, 0.1);
+    --mnav-item-active-color: #ffffff;
+    --mnav-item-active-bg: rgba(255, 255, 255, 0.1);
+    --mnav-item-active-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+
+    /* Modal Specifics */
+    --mnav-modal-input-bg: rgba(0, 0, 0, 0.2);
+    --mnav-modal-input-border: rgba(255, 255, 255, 0.1);
+    --mnav-modal-text: #fff;
+}
+
+
+/* --- Navbar Styles --- */
+.mobile-bottom-nav {
+    display: flex;
+    position: fixed;
+    z-index: 9999;
+
+    background: var(--mnav-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: var(--mnav-shadow);
+    border: 1px solid var(--mnav-border);
+    transition: all 0.3s ease;
+}
+
+/* Mobile: Horizontal Bottom */
+@media screen and (max-width: 768px) {
+    .mobile-bottom-nav {
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        flex-direction: row;
+        padding: 0.75rem 1.5rem;
+        border-radius: 50px;
+        width: 90%;
+        max-width: 400px;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+/* Desktop: Vertical Right */
+@media screen and (min-width: 769px) {
+    .mobile-bottom-nav {
+        top: 50%;
+        right: 0px !important;
+        left: auto !important;
+        bottom: auto !important;
+        transform: translateY(-50%) !important;
+        flex-direction: column;
+        padding: 0.75rem 0.5rem;
+        border-radius: 16px 0 0 16px;
+        gap: 0.5rem;
+        width: 60px;
+        max-width: none;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .mobile-bottom-nav.collapsed {
+        transform: translateY(-50%) translateX(100%) !important;
+    }
+
+    /* Toggle button for desktop - Always visible */
+    .mobile-nav-toggle {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: var(--mnav-bg);
+        border: 1px solid var(--mnav-border);
+        border-right: none;
+        border-radius: 8px 0 0 8px;
+        cursor: pointer;
+        color: var(--mnav-item-color);
+        transition: all 0.3s ease;
+        position: absolute;
+        left: -41px;
+        top: 10px;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: -4px 0 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .mobile-nav-toggle:hover {
+        background: var(--mnav-item-active-bg);
+        color: var(--mnav-item-active-color);
+        box-shadow: -4px 0 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .mobile-nav-toggle svg {
+        width: 20px;
+        height: 20px;
+        transition: transform 0.3s ease;
+    }
+
+    .mobile-bottom-nav.collapsed .mobile-nav-toggle svg {
+        transform: rotate(180deg);
+    }
+
+    /* Add separator after toggle */
+    .mobile-nav-toggle+.mobile-nav-item {
+        margin-top: 0.5rem;
+        padding-top: 0.5rem;
+    }
+
+    /* Adjust nav items on desktop */
+    .mobile-bottom-nav .mobile-nav-item {
+        width: 44px;
+        height: 44px;
+    }
+
+    /* Ensure navbar is always visible on desktop */
+    .mobile-bottom-nav {
+        display: flex !important;
+    }
+}
+
+.mobile-nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--mnav-item-color);
+    padding: 10px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    text-decoration: none !important;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.mobile-nav-item svg {
+    width: 24px;
+    height: 24px;
+    stroke-width: 2px;
+}
+
+.mobile-nav-item:hover {
+    color: var(--mnav-item-active-color);
+    background: var(--mnav-item-hover-bg);
+    transform: scale(1.05);
+}
+
+/* Hide toggle button on mobile */
+.mobile-nav-toggle {
+    display: none;
+}
+
+
+/* --- Modal Styles --- */
+.nav-config-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.nav-config-modal.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.nav-config-card {
+    background: var(--bg-card);
+    /* Uses main theme card bg */
+    width: 90%;
+    max-width: 400px;
+    max-height: 80vh;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    color: var(--text-primary);
+    /* Uses main theme text color */
+    border: 1px solid var(--border-light);
+}
+
+.nav-config-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border-light);
+    padding-bottom: 0.5rem;
+}
+
+.nav-config-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.nav-config-close {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 5px;
+}
+
+.nav-config-body {
+    overflow-y: auto;
+    flex: 1;
+    padding-right: 5px;
+}
+
+.nav-item-editor {
+    background: var(--bg-hover);
+    /* Light gray in light mode, dark in dark mode */
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-light);
+}
+
+.nav-item-editor h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    color: var(--primary-main);
+}
+
+.form-group {
+    margin-bottom: 0.75rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+.form-control {
+    width: 100%;
+    background: var(--mnav-modal-input-bg);
+    border: 1px solid var(--border-medium);
+    color: var(--text-primary);
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-main);
+    background: var(--bg-input);
+}
+
+textarea.form-control {
+    min-height: 60px;
+    font-family: monospace;
+    font-size: 0.75rem;
+}
+
+.nav-config-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-light);
+}
+
+.btn-save,
+.btn-reset {
+    flex: 1;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-save {
+    background: var(--primary-main);
+    color: var(--on-primary, #fff);
+}
+
+.btn-reset {
+    background: var(--bg-hover);
+    color: var(--text-secondary);
+}
+
+/* Edit Trigger specific size for circle */
+.mobile-nav-edit-trigger {
+    width: 44px;
+    /* Ensure circular target size */
+    height: 44px;
+    padding: 0;
+    margin-left: 5px;
+}
+
+
+/* --- Mobile Visibility --- */
+@media screen and (max-width: 768px) {
+    .mobile-bottom-nav {
+        display: flex;
+    }
+
+    /* Adjust main content padding so it doesn't get covered */
+    .dashboard-container {
+        padding-bottom: 90px !important;
+    }
+
+    footer.main-footer {
+        padding-bottom: 80px !important;
+    }
+}
+
+/* ========================================
+   PAGE LOADING SCREEN
+   ======================================== */
+
+#page-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+#page-loader.loaded {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader {
+    width: 50px;
+    aspect-ratio: 1;
+    color: var(--primary-main, #8B5CF6);
+    position: relative;
+    background:
+        conic-gradient(from 134deg at top, currentColor 92deg, #0000 0) top,
+        conic-gradient(from -46deg at bottom, currentColor 92deg, #0000 0) bottom;
+    background-size: 100% 50%;
+    background-repeat: no-repeat;
+}
+
+.loader:before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    --g: currentColor 14.5px, #0000 0 calc(100% - 14.5px), currentColor 0;
+    background:
+        linear-gradient(45deg, var(--g)),
+        linear-gradient(-45deg, var(--g));
+    animation: loaderSpin 1.5s infinite cubic-bezier(0.3, 1, 0, 1);
+}
+
+@keyframes loaderSpin {
+    33% {
+        inset: -10px;
+        transform: rotate(0deg);
+    }
+
+    66% {
+        inset: -10px;
+        transform: rotate(90deg);
+    }
+
+    100% {
+        inset: 0;
+        transform: rotate(90deg);
+    }
 }
