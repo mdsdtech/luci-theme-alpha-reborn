@@ -5248,3 +5248,53 @@ textarea.form-control {
     color: #ff453a !important;
     border-color: rgba(255, 69, 58, 0.3) !important;
 }
+
+.sidebar-nav-link.has-submenu::after {
+    content: "›";
+    margin-left: auto;
+    transition: transform 0.3s ease;
+    font-size: 1.25rem;
+    line-height: 1;
+    font-weight: 400;
+}
+
+.sidebar-nav-link.has-submenu.active::after {
+    transform: rotate(90deg);
+}
+
+/* Fix untuk tab content yang hidden - tidak boleh mengambil space */
+[data-tab-active="false"],
+.cbi-tab[data-tab-active="false"],
+.container[data-tab-active="false"],
+.cbi-section[data-tab-active="false"] {
+    display: none !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Pastikan tab content yang aktif ditampilkan dengan benar */
+[data-tab-active="true"],
+.cbi-tab[data-tab-active="true"],
+.container[data-tab-active="true"],
+.cbi-section[data-tab-active="true"] {
+    display: block !important;
+    height: auto !important;
+}
+
+/* Fix untuk elemen yang di-hide tapi masih mengambil space */
+.hidden,
+[style*="display: none"],
+[style*="visibility: hidden"] {
+    display: none !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Pastikan tab pane yang tidak aktif tidak mengambil space */
+.tab-content>.tab-pane:not(.active),
+.tab-content>div:not([data-tab-active="true"]) {
+    display: none !important;
+}
