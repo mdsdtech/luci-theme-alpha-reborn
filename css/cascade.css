@@ -31,91 +31,66 @@
 }
 
 :root {
-    /* -----------------------------------------------------------------------
-       1. BACKGROUND COLORS
-       ----------------------------------------------------------------------- */
-    --bg-main: #FFFFFF;
-    /* Main page background */
-    --bg-card: #F9F9F9;
-    /* Card/Container background */
-    --bg-panel: #F5F5F5;
-    /* Panel/Well background */
-    --bg-input: #FFFFFF;
-    /* Input field background */
-    --bg-hover: #F0F0F0;
-    /* Hover states */
-    --bg-active: #E0E0E0;
-    /* Active/Selected states */
+    --bg-main: #f5f5f7;
+    --bg-card: #ffffff;
+    --bg-panel: rgba(255, 255, 255, 0.75);
+    --bg-input: #ffffff;
+    --bg-hover: rgba(0, 0, 0, 0.05);
+    --bg-active: rgba(0, 0, 0, 0.1);
 
-    /* -----------------------------------------------------------------------
-       2. TEXT COLORS
-       ----------------------------------------------------------------------- */
-    --text-primary: #333333;
-    /* Main text */
-    --text-secondary: #666666;
-    /* Secondary/Description text */
-    --text-muted: #999999;
-    /* Disabled/Placeholder text */
-    --text-inverse: #FFFFFF;
-    /* Text on dark backgrounds */
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.4);
+    --glass-blur: blur(20px) saturate(180%);
 
-    /* -----------------------------------------------------------------------
-       3. BORDER COLORS
-       ----------------------------------------------------------------------- */
-    --border-light: #E0E0E0;
-    /* Subtle dividers */
-    --border-medium: #CCCCCC;
-    /* Standard borders */
-    --border-dark: #999999;
-    /* Emphasis borders */
+    --text-primary: #1d1d1f;
+    --text-secondary: #86868b;
+    --text-muted: #a1a1a6;
+    --text-inverse: #ffffff;
 
-    /* -----------------------------------------------------------------------
-       4. BRAND & STATUS COLORS
-       ----------------------------------------------------------------------- */
-    /* Primary (Blue) */
-    --primary-main: #1976d2;
-    --primary-hover: #1564c0;
-    --primary-active: #0d46a1;
-    --on-primary: #FFFFFF;
+    --border-light: rgba(0, 0, 0, 0.05);
+    --border-medium: rgba(0, 0, 0, 0.1);
+    --border-dark: rgba(0, 0, 0, 0.2);
 
-    /* Error (Red) */
-    --error-main: #D32F2F;
-    --error-hover: #C62828;
-    --error-active: #B71C1C;
-    --on-error: #FFFFFF;
+    --primary-main: #007aff;
+    --primary-hover: #0063cc;
+    --primary-active: #0050a4;
+    --on-primary: #ffffff;
 
-    /* Success (Green) */
-    --success-main: #2E7D32;
-    --success-hover: #1B5E20;
-    --success-active: #004D40;
-    --on-success: #FFFFFF;
+    --error-main: #ff3b30;
+    --error-hover: #d70015;
+    --error-active: #b4000b;
+    --on-error: #ffffff;
 
-    /* Warning (Yellow/Amber) */
-    --warning-main: #ED6C02;
-    --warning-hover: #E65100;
-    --warning-active: #BF360C;
-    --on-warning: #FFFFFF;
+    --success-main: #34c759;
+    --success-hover: #248a3d;
+    --success-active: #1d6f30;
+    --on-success: #ffffff;
 
-    /* -----------------------------------------------------------------------
-       5. COMPONENT SPECIFIC VARIABLES
-       ----------------------------------------------------------------------- */
+    --warning-main: #ffcc00;
+    --warning-hover: #d2a101;
+    --warning-active: #ab8100;
+    --on-warning: #000000;
+
     --sidebar-width: 260px;
     --sidebar-collapsed-width: 80px;
     --header-height: 72px;
-    --radius-sm: 4px;
-    --radius-md: 8px;
-    --radius-lg: 12px;
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 
-    /* Spacing */
+    --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 18px;
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12);
+
     --spacing-xs: 4px;
     --spacing-sm: 8px;
     --spacing-md: 16px;
     --spacing-lg: 24px;
     --spacing-xl: 32px;
 
-    /* Legacy Mappings (To be refactored further below) */
     --background-color-high: var(--bg-main);
     --background-color-medium: var(--bg-card);
     --background-color-low: var(--bg-panel);
@@ -123,45 +98,52 @@
     --text-color-medium: var(--text-secondary);
     --text-color-low: var(--text-muted);
     --text-color-highest: var(--text-primary);
-    /* Use primary for highest */
     --border-color-high: var(--border-medium);
     --border-color-medium: var(--border-light);
     --border-color-low: var(--border-light);
     --primary-color-high: var(--primary-main);
     --primary-color-medium: var(--primary-hover);
     --primary-color-low: var(--primary-active);
-    --disabled-opacity: 0.6;
+    --disabled-opacity: 0.5;
 
     color-scheme: light;
 }
 
 [data-theme="dark"] {
-    /* -----------------------------------------------------------------------
-       DARK MODE OVERRIDES
-       ----------------------------------------------------------------------- */
-    --bg-main: #121212;
-    --bg-card: #1E1E1E;
-    --bg-panel: #242424;
-    --bg-input: #2C2C2C;
-    --bg-hover: #333333;
-    --bg-active: #404040;
+    --bg-main: #000000;
+    --bg-card: #1c1c1e;
+    --bg-panel: rgba(44, 44, 46, 0.75);
+    --bg-input: #2c2c2e;
+    --bg-hover: rgba(255, 255, 255, 0.1);
+    --bg-active: rgba(255, 255, 255, 0.15);
 
-    --text-primary: #E0E0E0;
-    --text-secondary: #B0B0B0;
-    --text-muted: #757575;
-    --text-inverse: #121212;
+    --glass-bg: rgba(30, 30, 30, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-blur: blur(20px) saturate(180%);
 
-    --border-light: #333333;
-    --border-medium: #444444;
-    --border-dark: #555555;
+    --text-primary: #f5f5f7;
+    --text-secondary: #86868b;
+    --text-muted: #6e6e73;
+    --text-inverse: #000000;
 
-    /* Adjust primaries for dark mode if needed */
-    --primary-main: #90CAF9;
-    --primary-hover: #42A5F5;
-    --primary-active: #1E88E5;
-    --on-primary: #121212;
+    --border-light: rgba(255, 255, 255, 0.1);
+    --border-medium: rgba(255, 255, 255, 0.15);
+    --border-dark: rgba(255, 255, 255, 0.25);
 
-    /* Legacy Mappings Overrides */
+    --primary-main: #0a84ff;
+    --primary-hover: #409cff;
+    --primary-active: #0071e3;
+    --on-primary: #ffffff;
+
+    --error-main: #ff453a;
+    --on-error: #000000;
+
+    --success-main: #32d74b;
+    --on-success: #000000;
+
+    --warning-main: #ffd60a;
+    --on-warning: #000000;
+
     --background-color-high: var(--bg-main);
     --background-color-medium: var(--bg-card);
     --background-color-low: var(--bg-panel);
@@ -2741,7 +2723,6 @@ li.menu,
     bottom: 0;
     z-index: 1000;
     padding: 1.5rem;
-    /* var(--spacing-lg) */
     overflow-y: auto;
     transition: all 0.3s ease;
 }
@@ -2755,11 +2736,8 @@ li.menu,
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    /* var(--spacing-sm) */
     margin-bottom: 2rem;
-    /* var(--spacing-xl) increased */
     padding: 1rem;
-    /* var(--spacing-md) */
 }
 
 .sidebar-logo-icon {
@@ -2795,22 +2773,19 @@ li.menu,
 
 .sidebar-nav-item {
     margin-bottom: 0.25rem;
-    /* var(--spacing-xs) */
 }
 
 .sidebar-nav-link {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    /* var(--spacing-sm) */
     padding: 0.75rem 1.25rem;
-    /* var(--spacing-sm) var(--spacing-md) increased */
     color: rgba(255, 255, 255, 0.8);
     text-decoration: none;
     border-radius: 4px;
-    /* var(--radius-sm) */
     transition: all 0.2s ease;
     font-size: 1rem;
+    font-weight: 400;
 }
 
 .sidebar-nav-link:hover {
@@ -2821,6 +2796,10 @@ li.menu,
 
 .sidebar-nav-link.active {
     background: rgba(255, 255, 255, 0.15);
+    color: white;
+}
+
+.sidebar-nav-link.active .sidebar-nav-icon {
     color: white;
 }
 
@@ -4708,40 +4687,39 @@ body .modern-layout .main-wrapper {
    (Adaptive Light/Dark Mode)
    ======================================== */
 
-/* --- Default Light Mode Variables for Navbar --- */
+/* --- Default Light Mode Variables for Navbar (MacOS Style) --- */
 :root {
-    --mnav-bg: rgba(255, 255, 255, 0.85);
-    /* Light glass */
-    --mnav-border: rgba(0, 0, 0, 0.1);
-    --mnav-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-    --mnav-item-color: #64748b;
-    /* Slate 500 */
+    --mnav-bg: rgba(255, 255, 255, 0.65);
+    /* High transparency for glass */
+    --mnav-border: rgba(255, 255, 255, 0.4);
+    --mnav-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    --mnav-item-color: #555;
     --mnav-item-hover-bg: rgba(0, 0, 0, 0.05);
-    --mnav-item-active-color: var(--primary-main, #1976d2);
-    --mnav-item-active-bg: rgba(25, 118, 210, 0.1);
-    /* Primary tint */
-    --mnav-item-active-shadow: none;
+    --mnav-item-active-color: #000;
+    --mnav-item-active-bg: rgba(255, 255, 255, 0.8);
+    /* White highlight */
+    --mnav-item-active-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
     /* Modal Specifics */
-    --mnav-modal-input-bg: rgba(0, 0, 0, 0.05);
+    --mnav-modal-input-bg: rgba(255, 255, 255, 0.5);
     --mnav-modal-input-border: rgba(0, 0, 0, 0.1);
     --mnav-modal-text: #333;
 }
 
-/* --- Dark Mode Overrides --- */
+/* --- Dark Mode Overrides (MacOS Style) --- */
 [data-theme="dark"] {
-    --mnav-bg: rgba(15, 23, 42, 0.85);
-    /* Dark slate glass */
-    --mnav-border: rgba(255, 255, 255, 0.1);
-    --mnav-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-    --mnav-item-color: rgba(255, 255, 255, 0.6);
+    --mnav-bg: rgba(30, 30, 30, 0.60);
+    /* Dark transparency */
+    --mnav-border: rgba(255, 255, 255, 0.12);
+    --mnav-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    --mnav-item-color: rgba(255, 255, 255, 0.55);
     --mnav-item-hover-bg: rgba(255, 255, 255, 0.1);
-    --mnav-item-active-color: #ffffff;
-    --mnav-item-active-bg: rgba(255, 255, 255, 0.1);
-    --mnav-item-active-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    --mnav-item-active-color: #fff;
+    --mnav-item-active-bg: rgba(255, 255, 255, 0.15);
+    --mnav-item-active-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 
     /* Modal Specifics */
-    --mnav-modal-input-bg: rgba(0, 0, 0, 0.2);
+    --mnav-modal-input-bg: rgba(0, 0, 0, 0.3);
     --mnav-modal-input-border: rgba(255, 255, 255, 0.1);
     --mnav-modal-text: #fff;
 }
@@ -4754,8 +4732,8 @@ body .modern-layout .main-wrapper {
     z-index: 9999;
 
     background: var(--mnav-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
     box-shadow: var(--mnav-shadow);
     border: 1px solid var(--mnav-border);
     transition: all 0.3s ease;
@@ -5142,4 +5120,131 @@ textarea.form-control {
         inset: 0;
         transform: rotate(90deg);
     }
+}
+
+.cbi-button,
+.btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    padding: 0 12px !important;
+    height: 32px !important;
+    line-height: 1 !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    border-radius: 6px !important;
+    border: 1px solid transparent !important;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+    vertical-align: middle !important;
+    margin: 2px 4px !important;
+    white-space: nowrap;
+}
+
+.cbi-button,
+.cbi-button-neutral,
+.cbi-button-link,
+.btn {
+    background: #ffffff;
+    border-color: #d1d1d6 !important;
+    color: #1d1d1f !important;
+}
+
+.cbi-button:hover,
+.cbi-button-neutral:hover,
+.cbi-button-link:hover,
+.btn:hover {
+    background: #f5f5f7 !important;
+    border-color: #c7c7cc !important;
+    color: #1d1d1f !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.cbi-button:active,
+.cbi-button-neutral:active,
+.btn:active {
+    background: #e5e5ea !important;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.cbi-button-apply,
+.cbi-button-save,
+.cbi-button-positive,
+.cbi-button-action,
+.cbi-button-edit,
+.btn.primary {
+    background: #007aff !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: 0 1px 2px rgba(0, 122, 255, 0.2);
+}
+
+.cbi-button-apply:hover,
+.cbi-button-save:hover,
+.cbi-button-positive:hover,
+.cbi-button-action:hover,
+.cbi-button-edit:hover,
+.btn.primary:hover {
+    background: #0062cc !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 4px rgba(0, 122, 255, 0.3);
+}
+
+.cbi-button-reset,
+.cbi-button-remove,
+.cbi-button-negative,
+.cbi-button-delete,
+.btn.danger {
+    background: #ffffff !important;
+    color: #ff3b30 !important;
+    border-color: rgba(255, 59, 48, 0.3) !important;
+}
+
+.cbi-button-reset:hover,
+.cbi-button-remove:hover,
+.cbi-button-negative:hover,
+.cbi-button-delete:hover,
+.btn.danger:hover {
+    background: #fff0f0 !important;
+    border-color: #ff3b30 !important;
+    color: #d70015 !important;
+    box-shadow: 0 1px 2px rgba(215, 0, 21, 0.1);
+}
+
+[data-theme="dark"] .cbi-button,
+[data-theme="dark"] .cbi-button-neutral,
+[data-theme="dark"] .btn {
+    background: #2c2c2e;
+    border-color: #3a3a3c !important;
+    color: #f5f5f5 !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .cbi-button:hover,
+[data-theme="dark"] .cbi-button-neutral:hover,
+[data-theme="dark"] .btn:hover {
+    background: #3a3a3c !important;
+    border-color: #48484a !important;
+}
+
+[data-theme="dark"] .cbi-button-apply,
+[data-theme="dark"] .cbi-button-save,
+[data-theme="dark"] .cbi-button-positive,
+[data-theme="dark"] .cbi-button-action,
+[data-theme="dark"] .cbi-button-edit {
+    background: #0a84ff !important;
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] .cbi-button-reset,
+[data-theme="dark"] .cbi-button-remove,
+[data-theme="dark"] .cbi-button-negative,
+[data-theme="dark"] .cbi-button-delete {
+    background: #2c2c2e !important;
+    color: #ff453a !important;
+    border-color: rgba(255, 69, 58, 0.3) !important;
 }
