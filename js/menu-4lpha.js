@@ -109,6 +109,11 @@ return baseclass.extend({
         // 3. Render Navbar from Config
         const nav = E('div', { 'class': 'mobile-bottom-nav' });
 
+        // Add compact class if too many items
+        if (config.length > 5) {
+            nav.classList.add('compact');
+        }
+
         // Add Toggle Button at the top (for desktop vertical mode)
         const toggleBtn = E('button', {
             'class': 'mobile-nav-toggle',

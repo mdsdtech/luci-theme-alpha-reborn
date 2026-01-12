@@ -4775,6 +4775,29 @@ body .modern-layout .main-wrapper {
         justify-content: space-between;
         align-items: center;
     }
+
+    /* Compact mode for > 5 items */
+    /* Compact mode for > 5 items */
+    .mobile-bottom-nav.compact {
+        padding: 0.4rem 0.5rem;
+        /* Reduced height and horizontal padding */
+        gap: 2px;
+        max-width: 95%;
+        /* Allow full width if needed */
+    }
+
+    .mobile-bottom-nav.compact .mobile-nav-item {
+        padding: 4px;
+        /* Smaller touch target padding */
+        flex-shrink: 1;
+        min-width: 30px;
+    }
+
+    .mobile-bottom-nav.compact .mobile-nav-item svg,
+    .mobile-bottom-nav.compact .mobile-nav-item img {
+        width: 20px;
+        height: 20px;
+    }
 }
 
 /* Desktop: Vertical Right */
