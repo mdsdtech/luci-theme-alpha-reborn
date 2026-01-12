@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Clone luci-theme-4lpha (branch Alpha-OS-4.0-Beta-(for-OpenWrt-24.xx))
+      - name: Clone luci-theme-4lpha
         run: |
           git clone -b "main" https://github.com/derisamedia/luci-theme-alpha-reborn.git luci-theme-4lpha
           ls -R luci-theme-4lpha
